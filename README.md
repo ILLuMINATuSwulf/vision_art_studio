@@ -1,4 +1,4 @@
-# vision_art_studio
+
 # VisionArt Studio
 
 **Accessible, All-in-One Creative Web Application**
