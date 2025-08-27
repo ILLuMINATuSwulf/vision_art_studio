@@ -1,0 +1,59 @@
+{
+  "name": "visionart-studio",
+  "version": "1.0.0",
+  "description": "Accessible, All-in-One Creative Web Application combining drawing, image editing, and font generation",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve . -p 3000",
+    "dev": "npx serve . -p 3000 --live",
+    "build": "echo 'No build step required - static files ready for deployment'",
+    "test": "echo 'No tests specified'",
+    "deploy": "echo 'Upload files to your web server or hosting platform'"
+  },
+  "keywords": [
+    "art",
+    "drawing",
+    "painting",
+    "accessibility",
+    "canvas",
+    "image-editing",
+    "font-generator",
+    "web-app",
+    "creative-tools",
+    "wcag",
+    "screen-reader"
+  ],
+  "author": "VisionArt Studio Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/visionart-studio.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/visionart-studio/issues"
+  },
+  "homepage": "https://your-username.github.io/visionart-studio",
+  "devDependencies": {
+    "serve": "^14.0.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie <= 11"
+  ],
+  "pwa": {
+    "name": "VisionArt Studio",
+    "short_name": "VisionArt",
+    "description": "Accessible creative app for all artists",
+    "theme_color": "#2563eb",
+    "background_color": "#ffffff",
+    "display": "standalone",
+    "orientation": "any",
+    "start_url": "/",
+    "scope": "/"
+  }
+}
