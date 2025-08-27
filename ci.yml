@@ -1,0 +1,122 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Lint HTML
+      run: |
+        npx htmlhint index.html
+        
+    - name: Lint CSS
+      run: |
+        npx stylelint styles.css
+        
+    - name: Lint JavaScript
+      run: |
+        npx eslint js/*.js
+        
+    - name: Check accessibility
+      run: |
+        npx pa11y-ci --sitemap http://localhost:3000/sitemap.xml || true
+        
+    - name: Validate manifest
+      run: |
+        npx web-app-manifest-validator manifest.json
+
+  accessibility-audit:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        
+    - name: Install dependencies
+      run: |
+        npm ci
+        npm install -g @axe-core/cli lighthouse-ci
+        
+    - name: Start server
+      run: |
+        npm start &
+        sleep 5
+        
+    - name: Run Lighthouse CI
+      run: |
+        lhci autorun
+        
+    - name: Run axe accessibility tests
+      run: |
+        axe http://localhost:3000 --tags wcag2a,wcag2aa
+
+  deploy-preview:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Deploy to Netlify Preview
+      uses: nwtgck/actions-netlify@v2.0
+      with:
+        publish-dir: '.'
+        production-branch: main
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        deploy-message: "Deploy from GitHub Actions"
+        enable-pull-request-comment: true
+        enable-commit-comment: false
+        overwrites-pull-request-comment: true
+      env:
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+  deploy-production:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    needs: [lint-and-test, accessibility-audit]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: '.'
+        
+    - name: Deploy to Netlify Production
+      uses: nwtgck/actions-netlify@v2.0
+      with:
+        publish-dir: '.'
+        production-deploy: true
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        deploy-message: "Production deploy from GitHub Actions"
+      env:
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
