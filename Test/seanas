@@ -1,0 +1,195 @@
+# This was the first page of the App, intellectual property of seana m. lundquist. 2025 
+# I wanted to make her something to show I always listened when she spoke, I just found other ways to show it.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VisionArt Studio - Accessible Creative App</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="app" class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <h1 class="app-title">VisionArt Studio</h1>
+            <div class="header-controls">
+                <button class="btn btn-primary" id="save-btn" aria-label="Save project">
+                    <span class="btn-icon">💾</span>
+                    <span class="btn-text">Save</span>
+                </button>
+                <button class="btn btn-secondary" id="export-btn" aria-label="Export artwork">
+                    <span class="btn-icon">📤</span>
+                    <span class="btn-text">Export</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Toolbar -->
+            <aside class="toolbar" role="toolbar" aria-label="Drawing tools">
+                <div class="tool-section">
+                    <h3 class="section-title">Drawing Tools</h3>
+                    <button class="tool-btn active" id="brush-tool" data-tool="brush" aria-label="Brush tool - Paint with customizable brushes">
+                        <span class="tool-icon">🖌️</span>
+                        <span class="tool-label">Brush</span>
+                    </button>
+                    <button class="tool-btn" id="pencil-tool" data-tool="pencil" aria-label="Pencil tool - Draw precise lines">
+                        <span class="tool-icon">✏️</span>
+                        <span class="tool-label">Pencil</span>
+                    </button>
+                    <button class="tool-btn" id="eraser-tool" data-tool="eraser" aria-label="Eraser tool - Remove parts of your drawing">
+                        <span class="tool-icon">🧹</span>
+                        <span class="tool-label">Eraser</span>
+                    </button>
+                </div>
+
+                <div class="tool-section">
+                    <h3 class="section-title">Shape Tools</h3>
+                    <button class="tool-btn" id="line-tool" data-tool="line" aria-label="Line tool - Draw straight lines">
+                        <span class="tool-icon">📏</span>
+                        <span class="tool-label">Line</span>
+                    </button>
+                    <button class="tool-btn" id="rectangle-tool" data-tool="rectangle" aria-label="Rectangle tool - Draw rectangles and squares">
+                        <span class="tool-icon">⬜</span>
+                        <span class="tool-label">Rectangle</span>
+                    </button>
+                    <button class="tool-btn" id="circle-tool" data-tool="circle" aria-label="Circle tool - Draw circles and ellipses">
+                        <span class="tool-icon">⭕</span>
+                        <span class="tool-label">Circle</span>
+                    </button>
+                </div>
+
+                <div class="tool-section">
+                    <h3 class="section-title">Text & Fonts</h3>
+                    <button class="tool-btn" id="text-tool" data-tool="text" aria-label="Text tool - Add text with custom fonts">
+                        <span class="tool-icon">📝</span>
+                        <span class="tool-label">Text</span>
+                    </button>
+                    <button class="tool-btn" id="font-generator" data-tool="font-gen" aria-label="Font generator - Create stylized text effects">
+                        <span class="tool-icon">🎨</span>
+                        <span class="tool-label">Font Gen</span>
+                    </button>
+                </div>
+
+                <div class="tool-section">
+                    <h3 class="section-title">Image Tools</h3>
+                    <button class="tool-btn" id="crop-tool" data-tool="crop" aria-label="Crop tool - Trim your image">
+                        <span class="tool-icon">✂️</span>
+                        <span class="tool-label">Crop</span>
+                    </button>
+                    <button class="tool-btn" id="filter-tool" data-tool="filter" aria-label="Filter tool - Apply visual effects">
+                        <span class="tool-icon">🌈</span>
+                        <span class="tool-label">Filters</span>
+                    </button>
+                </div>
+            </aside>
+
+            <!-- Canvas Area -->
+            <section class="canvas-container">
+                <div class="canvas-wrapper">
+                    <canvas id="main-canvas" width="800" height="600" aria-label="Drawing canvas"></canvas>
+                    <div id="canvas-overlay" class="canvas-overlay"></div>
+                </div>
+                
+                <!-- Canvas Controls -->
+                <div class="canvas-controls">
+                    <button class="btn btn-icon" id="zoom-out" aria-label="Zoom out">🔍-</button>
+                    <span class="zoom-level">100%</span>
+                    <button class="btn btn-icon" id="zoom-in" aria-label="Zoom in">🔍+</button>
+                    <button class="btn btn-icon" id="fit-canvas" aria-label="Fit canvas to screen">📐</button>
+                </div>
+            </section>
+
+            <!-- Properties Panel -->
+            <aside class="properties-panel">
+                <div class="panel-section">
+                    <h3 class="section-title">Brush Settings</h3>
+                    <div class="control-group">
+                        <label for="brush-size">Size</label>
+                        <input type="range" id="brush-size" min="1" max="100" value="10" aria-label="Brush size">
+                        <span class="value-display">10px</span>
+                    </div>
+                    <div class="control-group">
+                        <label for="brush-opacity">Opacity</label>
+                        <input type="range" id="brush-opacity" min="0" max="100" value="100" aria-label="Brush opacity">
+                        <span class="value-display">100%</span>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3 class="section-title">Colors</h3>
+                    <div class="color-picker-container">
+                        <input type="color" id="primary-color" value="#000000" aria-label="Primary color">
+                        <input type="color" id="secondary-color" value="#ffffff" aria-label="Secondary color">
+                        <button class="btn btn-small" id="swap-colors" aria-label="Swap primary and secondary colors">⇄</button>
+                    </div>
+                    <div class="color-presets">
+                        <button class="color-preset" style="background: #ff0000" data-color="#ff0000" aria-label="Red"></button>
+                        <button class="color-preset" style="background: #00ff00" data-color="#00ff00" aria-label="Green"></button>
+                        <button class="color-preset" style="background: #0000ff" data-color="#0000ff" aria-label="Blue"></button>
+                        <button class="color-preset" style="background: #ffff00" data-color="#ffff00" aria-label="Yellow"></button>
+                        <button class="color-preset" style="background: #ff00ff" data-color="#ff00ff" aria-label="Magenta"></button>
+                        <button class="color-preset" style="background: #00ffff" data-color="#00ffff" aria-label="Cyan"></button>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3 class="section-title">Layers</h3>
+                    <div class="layers-container">
+                        <div class="layer-item active" data-layer="0">
+                            <span class="layer-name">Background</span>
+                            <button class="btn btn-tiny" aria-label="Toggle layer visibility">👁️</button>
+                        </div>
+                    </div>
+                    <button class="btn btn-small" id="add-layer" aria-label="Add new layer">+ Add Layer</button>
+                </div>
+            </aside>
+        </main>
+
+        <!-- Action Bar -->
+        <div class="action-bar">
+            <button class="btn btn-icon" id="undo-btn" aria-label="Undo last action">↶</button>
+            <button class="btn btn-icon" id="redo-btn" aria-label="Redo last action">↷</button>
+            <button class="btn btn-secondary" id="clear-canvas" aria-label="Clear entire canvas">🗑️ Clear</button>
+            <button class="btn btn-primary" id="ai-generate" aria-label="Generate image with AI">🤖 AI Generate</button>
+        </div>
+    </div>
+
+    <!-- Tooltips -->
+    <div id="tooltip" class="tooltip" role="tooltip"></div>
+
+    <!-- Modals -->
+    <div id="modal-overlay" class="modal-overlay">
+        <div class="modal" id="export-modal">
+            <h2>Export Artwork</h2>
+            <div class="modal-content">
+                <div class="export-options">
+                    <label>
+                        <input type="radio" name="format" value="png" checked> PNG (Transparent)
+                    </label>
+                    <label>
+                        <input type="radio" name="format" value="jpg"> JPG
+                    </label>
+                    <label>
+                        <input type="radio" name="format" value="svg"> SVG (Vector)
+                    </label>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn btn-secondary" id="cancel-export">Cancel</button>
+                    <button class="btn btn-primary" id="confirm-export">Export</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script src="js/canvas.js"></script>
+    <script src="js/tools.js"></script>
+    <script src="js/accessibility.js"></script>
+</body>
+</html>
